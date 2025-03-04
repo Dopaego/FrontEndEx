@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+    <html lang="zh-CN">
+        <head>
+            <meta charset="UTF-8">
+            <title>My-todoList</title>
+            <link rel="stylesheet" href="src/assets/styles/base.css">
+        </head>
+        <body>
+            <main class="todo-app" role="main">
+                <h1 class="sr-only">待办事项管理</h1>
+                <form class="todo-form">
+                    <input
+                    type="text"
+                    id="todo-input"
+                    aria-label="输入新任务"
+                    placeholder="请输入待办事项"
+                    >
+                    <select class="todo-type" required>
+                        <option value="" disabled selected hidden>待办事项类型</option>
+                        <option value="learn">学习</option>
+                        <option value="life">生活</option>
+                        <option value="fitness">健身</option>
+                        <option value="work">工作</option>
+                    </select>
+                    <button type="submit" class="add-button" >添加</button>
+                </form>
+                <div class="isDoing" role="group">
+                    <h6>事项状态</h6>
+                    <label>
+                        <input type="radio" name="isDone" value="all"> 全部事项
+                    </label>
+                    <label>
+                        <input type="radio" name="isDone" value="doing"> 进行中
+                    </label>
+                    <label>
+                        <input type="radio" name="isDone" value="done"> 已完成
+                    </label>
+                </div>
+                <!-- 这里要改用for循环来填充待做事项 -->
+                <ul class="todo-things">
+                    <li>
+                        <label>
+                            <input type="checkbox" aria-label="完成">
+                            <span>完成ToDoList开发</span>
+                        </label>
+                    </li>
+                </ul>
+
+                <!-- 统计一下完成的任务和未完成的任务 -->
+                 <footer>
+                    已完成：<span> 0</span>
+                 </footer>
+            </main>
+
+        </body>
+    </html>
