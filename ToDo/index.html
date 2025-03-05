@@ -22,7 +22,7 @@
                         <option value="fitness">健身</option>
                         <option value="work">工作</option>
                     </select>
-                    <button type="submit" class="add-button" >添加</button>
+                    <button type="button" id="add-button" >添加</button>
                 </form>
                 <div class="isDoing" role="group">
                     <h6>事项状态</h6>
@@ -36,8 +36,9 @@
                         <input type="radio" name="isDone" value="done"> 已完成
                     </label>
                 </div>
-                <!-- 这里要改用for循环来填充待做事项 -->
-                <ul class="todo-things">
+
+                <!-- 填充待做事项 -->
+                <ul id="todo-things">
                     <li>
                         <label>
                             <input type="checkbox" aria-label="完成">
@@ -45,12 +46,16 @@
                         </label>
                     </li>
                 </ul>
+                <!-- 未完成事项 -->
+                <ul id="completed">
+
+                </ul>
 
                 <!-- 统计一下完成的任务和未完成的任务 -->
                  <footer>
                     已完成：<span> 0</span>
                  </footer>
             </main>
-
+            <script src="src/app.js"></script>
         </body>
     </html>
