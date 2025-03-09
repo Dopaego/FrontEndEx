@@ -3,11 +3,15 @@
         <head>
             <meta charset="UTF-8">
             <title>My-todoList</title>
+        <!-- 字体导入 -->
+            <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700" rel="stylesheet">
+            <script src="https://kit.fontawesome.com/545ce9fa93.js" crossorigin="anonymous"></script>
+            <!-- 样式导入 -->
             <link rel="stylesheet" href="src/assets/styles/base.css">
         </head>
         <body>
             <main class="todo-app" role="main">
-                <h1 class="sr-only">待办事项管理</h1>
+                <h1 class="head1">ToDoList</h1>
                 <form class="todo-form">
                     <input
                     type="text"
@@ -15,46 +19,25 @@
                     aria-label="输入新任务"
                     placeholder="请输入待办事项"
                     >
-                    <select class="todo-type" required>
+                    <select id="todo-type" required>
                         <option value="" disabled selected hidden>待办事项类型</option>
                         <option value="learn">学习</option>
                         <option value="life">生活</option>
                         <option value="fitness">健身</option>
                         <option value="work">工作</option>
+                        <option value="prpr">嘿嘿</option>
                     </select>
-                    <button type="button" id="add-button" >添加</button>
+                    <i class="fa-solid fa-plus fa-2xl" style="color: #74C0FC;" id="add-button"></i>
                 </form>
-                <div class="isDoing" role="group">
-                    <h6>事项状态</h6>
-                    <label>
-                        <input type="radio" name="isDone" value="all"> 全部事项
-                    </label>
-                    <label>
-                        <input type="radio" name="isDone" value="doing"> 进行中
-                    </label>
-                    <label>
-                        <input type="radio" name="isDone" value="done"> 已完成
-                    </label>
-                </div>
 
                 <!-- 填充待做事项 -->
-                <ul id="todo-things">
-                    <li>
-                        <label>
-                            <input type="checkbox" aria-label="完成">
-                            <span>完成ToDoList开发</span>
-                        </label>
-                    </li>
-                </ul>
-                <!-- 未完成事项 -->
-                <ul id="completed">
-
-                </ul>
-
-                <!-- 统计一下完成的任务和未完成的任务 -->
-                 <footer>
-                    已完成：<span> 0</span>
-                 </footer>
+                <ol id="todo-thing">
+                </ol>
+                <img src="src/assets/images/xtww1.png" style="width: 40px; height: auto; position: absolute; top: 22%; left: 44%;">
+                <img src="src/assets/images/cat2.jpg" style="width: 40px; height: auto; position: absolute; top: 30%; left: 40%;">
+                <img src="src/assets/images/lz1.jpg" style="width: 40px; height: auto; position: absolute; top: 35%; left: 36%;">
+                <img src="src/assets/images/amyy.jpg" style="width: 40px; height: auto; position: absolute; top: 40%; left: 32%;">
+                
             </main>
             <script src="src/app.js"></script>
         </body>

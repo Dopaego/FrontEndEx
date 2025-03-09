@@ -2,22 +2,26 @@
 const DOM = {
     form : document.getElementsByClassName('todo-form'),
     input: document.getElementById('todo-input'),
-    todo: document.getElementById('todo-things'),
+    todo: document.getElementById('todo-thing'),
     completed: document.getElementById('completed'),
     filters: document.querySelectorAll("input[name='isDone']"),
     add: document.getElementById('add-button'),
+    type: document.getElementById('todo-type'),
 }
 
-var data = (localStorage.getItem('todoList')) ? JSON.parse(localStorage.getItem('todoList')) : {
-    todo: [],
-    completed: []
+var data = (localStorage.getItem('todoList'))
+  ? JSON.parse(localStorage.getItem('todoList')) 
+  : {
+    todoList: []
 }
+renderTodoList();
 DOM.add.addEventListener('click',function(e) {
     e.preventDefault();
     console.log('SUCCESS!');
     var value = DOM.input.value;
-    if(value){
-        addItem(value);
+    var type = DOM.type.value;
+    if(value && type){
+        addItem(value,type);
     }else{
         alert("请填写具体待办事项！")
     }
@@ -25,93 +29,71 @@ DOM.add.addEventListener('click',function(e) {
 
 DOM.input.addEventListener('keydown',function(e){
     var value = this.value;
-    if(e.value ==='Enter' && value){
-        addItem(value);
+    var type = DOM.type.value;
+    if(e.key ==='Enter' && value && type){
+        e.preventDefault();
+        addItem(value,type);
     }
 })
-function addItem (value){
-    addItemToDOM(value);
+function addItem (value,type){
     DOM.input.value = '';
-    data.todo.push(value);
-
-}
-function removeItem(){
-    var item = this.parentNode.parentNode;
-    var parent = item.parentNode;
-    var id = parent.id;
-    var value = item.innerHTML;
-
-    if(id === 'todo'){
-        data.todo.splice(data.todo.indexOf(value),1);
-    }else{
-        data.completed.splice(data.completed.indexOf(value),1);
-    }
+    
+    const newThing = {
+        id: Date.now().toString(),
+        isDone : false,
+        type : type,
+        info : value.trim(),
+        createdAt: new Date().toISOString()
+    };
+    data.todoList.push(newThing);
     dataObjectUpdated();
+    renderTodoList();
 
-    parent.removeChild(item);
 }
+function removeItem(id){
+    console.log(id);
+    data.todoList = data.todoList.filter(task => task.id != id);
+    dataObjectUpdated();
+    renderTodoList();
 
+}
+function toggleIsDone(id){
+    const aim = data.todoList.find(t => t.id == id);
+    console.log(aim);
+    if(aim){
+        aim.isDone = !aim.isDone;
+        renderTodoList();
+        dataObjectUpdated();
+    }
+}
+//渲染DOM填充数据
 function renderTodoList(){
-    if(!data.todo.length && !data.completed.length) return;
-
-    for(var i = 0; i < data.todo.length; i++){
-        var value = data[i];
-        addItemToDOM(value);
-    }
-
-    for(var i = 0; i < data.completed.length; i++){
-        var value = data[i];
-        addItemToDOM(value);
-    }
-}
-
-function completeItem(){
-    var item = this.parentNode.parentNode;
-    var parent = item.parentNode;
-    var id = parent.id;
-    var value = item.innerHTML;
-
-    if(id === 'todo'){
-        data.todo.splice(data.todo.indexOf(value),1);
-        data.completed.push(value);
-    }else{
-        data.completed.splice(data.completed.indexOf(value),1);
-        data.todo.push(value);
-    }
+    console.log(data);
+    const sorted = [...data.todoList].sort((a,b) => {
+        if(a.isDone === b.isDone){
+            return b.createdAt.localeCompare(b.createdAt);
+        }
+        return a.isDone ? 1: -1;
+    });
+    DOM.todo.innerHTML = sorted.map((task,index) => `
+    <li class="${task.isDone ? 'done' : 'todo'}">
+     <div class="content-wrapper">
+        <input type="checkbox" ${task.isDone ? 'checked' : ''}
+        onchange="toggleIsDone(${task.id})">
+        <span>${task.type}</span> 
+    </div>
+    <div id="things">
+        <span>${task.info}</span>
+    </div>
+        <i class="fa-solid fa-trash" id="delete-btn" onclick="removeItem(${task.id})"></i>    
+    </li>
+   
+    `).join('');
+        
 }
 
 function dataObjectUpdated(){
     localStorage.setItem('todoList',JSON.stringify(data));
 }
 
-//将新事项添加到DOM中
-function addItemToDOM(text,completed){
-    var list = (completed) ? DOM.completed : DOM.todo;
-
-    var item = document.createElement('li');
-    item.innerText = text;
-
-    var buttons = document.createElement('div');
-    buttons.classList.add('buttons');
-
-    var remove = document.createElement('div');
-    remove.classList.add('remove');
-    remove.innerHTML = "delete";
-
-    remove.addEventListener('click',removeItem);
-
-    var complete = document.createElement('button');
-    complete.classList.add('complete');
-    complete.innerHTML = "complete";
-
-    complete.addEventListener('click',completeItem);
-
-    buttons.appendChild(remove);
-    buttons.appendChild(complete);
-    item.appendChild(buttons);
-
-    list.insertBefore(item,list.childNodes[0]);
-
-
-}
 
