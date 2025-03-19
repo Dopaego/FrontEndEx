@@ -7,3 +7,7 @@
 
 ## 2.可折叠组件
 出处：https://roadmap.sh/projects/accordion
+
+## 3.切换标签
+
+出处：https://roadmap.sh/projects/simple-tabs
